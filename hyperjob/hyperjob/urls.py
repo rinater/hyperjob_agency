@@ -15,8 +15,10 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
-from hyperjob.views import menu
+from django.urls import path, include, re_path
+
+from hyperjob import views
+from hyperjob.views import menu, MyLogOutView, MyHome
 from django.views.generic import RedirectView
 
 urlpatterns = [
@@ -24,6 +26,17 @@ urlpatterns = [
     path('', menu, name='menu'),
     path('resumes/', include('resume.urls')),
     path('vacancies/', include('vacancy.urls')),
+    path('login', views.MyLoginView.as_view()),
     path('login/', RedirectView.as_view(url='/login')),
+    path('signup', views.MySignupView.as_view()),
     path('signup/', RedirectView.as_view(url='/signup')),
+    path("logout/", MyLogOutView.as_view(), name="logout"),
+    path('home/', MyHome.as_view(), name='home'),
+    path('resume/', include('resume.urls')),
+    path('vacancy/', include('vacancy.urls')),
 ]
+'''
+    re_path('signup/', views.SignUpView.as_view()),
+    re_path('login/', views.LoginView.as_view()),
+    re_path('logout/', views.LogoutView.as_view()),
+'''
